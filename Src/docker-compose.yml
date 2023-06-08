@@ -1,21 +1,20 @@
 version: "3"
 
 volumes:
-  mariadb:
+  mariadb_volume:
     name: mariadb
     driver: local
     driver_opts:
-      device: ${LOCAL_USER}/data/mariadb
+      device: /Users/qfrederi/Desktop/testmaria
       o: bind
       type: none
-
 
 services:
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb
     volumes:
-      - mariadb:/var/lib/mysql
+      - mariadb_volume:/var/lib/mysql
     networks:
       - network
     restart: always
