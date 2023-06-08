@@ -1,10 +1,30 @@
 version: "3"
 
 volumes:
-        mariadb:
-                name: mariadb
-                driver: local
-                driver_opts:
-                        device: ${LOCAL_USER}/data/mariadb
-                        o: bind
-                        type: none
+  mariadb:
+    name: mariadb
+    driver: local
+    driver_opts:
+      device: ${LOCAL_USER}/data/mariadb
+      o: bind
+      type: none
+
+
+services:
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - network
+    restart: always
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_HOSTNAME=${MYSQL_HOSTNAME}
+      - MYSQL_USERNAME=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
+networks:
+  network:
+    driver: bridge
