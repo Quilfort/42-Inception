@@ -12,8 +12,12 @@ restart:
 		docker-compose -f ./Src/docker-compose.yml stop
 		docker-compose -f ./Src/docker-compose.yml up -d
 clean:
-		docker stop $(docker ps -a -q)
-		docker rm $(docker ps -a -q)
 		docker rmi $(docker images -q)
+open:
+		@open -a Docker
+		@echo "Open Docker"
+close:
+		@osascript -e 'quit app "Docker"'
+		@echo "Close Docker" 		
 status:
 		@docker ps

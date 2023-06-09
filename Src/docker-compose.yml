@@ -8,11 +8,18 @@ volumes:
       device: /Users/qfrederi/Desktop/testmaria
       o: bind
       type: none
+  wordpress_volume:
+    name: wordpress
+    driver: local
+    driver_opts:
+      device: /Users/qfrederi/Desktop/testwordpress
+      type: none
+      o: bind
 
 services:
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb
+    build: ./requirements/mariadb/.
     volumes:
       - mariadb_volume:/var/lib/mysql
     networks:
@@ -23,6 +30,39 @@ services:
       - MYSQL_HOSTNAME=${MYSQL_HOSTNAME}
       - MYSQL_USERNAME=${MYSQL_USERNAME}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress/.
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress_volume:/var/www/html
+    networks:
+      - network
+    restart: always
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_HOSTNAME=${MYSQL_HOSTNAME}
+      - MYSQL_USERNAME=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - WP_ADMIN=${WP_ADMIN}
+      - WP_ADMIN_PASSWORD=${WP_ADMIN_PASSWORD}
+      - WP_USER=${WP_USER}
+      - WP_USER_PASSWORD=${WP_USER_PASSWORD}
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx/.
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress_volume:/var/www/html
+    ports:
+      - "443:443"
+    networks:
+      - network
+    restart: always
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
 
 networks:
   network:
