@@ -1,17 +1,32 @@
 #!/bin/bash
 
-mkdir /var/www/
-mkdir /var/www/html
-cd /var/www/html
+if [ ! -f "/var/www/html/wp-config.php" ]; then
+	echo "installing WordPress"
 
-rm -rf *
+    wp-cli.phar core download --path="/var/www/html" --allow-root
+    wp-cli.phar config create --path="/var/www/html" \
+    --dbname=$MYSQL_DATABASE \
+    --dbuser=$MYSQL_USERNAME \
+    --dbpass=$MYSQL_PASSWORD= \
+    --dbhost=$MYSQL_HOSTNAME \
+    --allow-root
 
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    wp-cli.phar core install --path="/var/www/html" \
+    --title="Inception Website"
+    --admin_user=$WP_ADMIN \
+    --admin_password=$WP_ADMIN_PASSWORD \
+    --admin_email="WP_ADMIN@DOMAIN_NAME" \
+    --skip-email \
+    --allow-root
 
-chmod +x wp-cli.phar 
-mv wp-cli.phar /usr/local/bin/wp
+    wp user create "$WP_USER" $WP_USER@$DOMAIN_NAME \
+    --path="/var/www/html" \
+    --user_pass=$WP_USER_PASSWORD
+    --allow-root
 
-wp --info
+else
+    echo "WordPress is installed in website"
 
-wp core download --allow-root
-mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+fi
+
+exex "$@"
