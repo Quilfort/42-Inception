@@ -25,6 +25,8 @@ close:
 		@echo "Close Docker" 		
 status:
 		@docker ps
+network:
+		@docker network ls
 mariadb:
 		@docker exec -t -i mariadb /bin/bash
 
