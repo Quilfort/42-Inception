@@ -8,11 +8,10 @@ stop:
 		docker-compose -f ./srcs/docker-compose.yml stop
 start:
 		docker-compose -f ./srcs/docker-compose.yml start
-restart:
-		docker-compose -f ./srcs/docker-compose.yml stop
-		docker-compose -f ./srcs/docker-compose.yml up -d
-clean:
-		docker rmi $(docker images -q)
+	
+clean: down
+        docker rmi srcs_mariadb srcs_nginx srcs_wordpress
+        docker volume rm srcs_mariadb_volume srcs_wordpress_volume
 open:
 		@open -a Docker
 		@echo "Open Docker"
@@ -21,3 +20,13 @@ close:
 		@echo "Close Docker" 		
 status:
 		@docker ps
+
+restart:
+		docker-compose -f ./srcs/docker-compose.yml down
+		docker rmi srcs_mariadb srcs_nginx srcs_wordpress
+		docker volume rm srcs_mariadb_volume srcs_wordpress_volume
+		@osascript -e 'quit app "Docker"'
+		@echo "Close Docker"
+		@open -a Docker
+		@echo "Open Docker"
+		docker-compose -f ./srcs/docker-compose.yml up -d 

@@ -63,6 +63,10 @@ services:
     restart: always
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
+      - SSL_COUNTRY=${SSL_COUNTRY}
+      - SSL_STATE=${SSL_STATE}
+      - SSL_LOCALITY=${SSL_LOCALITY}
+      - SSL_ORGANIZATION=${SSL_ORGANIZATION}
 
 networks:
   network:

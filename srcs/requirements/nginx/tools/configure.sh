@@ -8,10 +8,11 @@ if [ ! -f "/etc/ssl/certs/certificate.crt" ]; then
             -newkey rsa:2048 \
             -x509 \
             -sha256 \
-            -days 356 \
+            -days 365 \
+            -nodes \
+            -out /etc/ssl/certs/certificate.crt \
             -keyout /etc/ssl/private/certificate.key \
-            -out /etc/ssl/certs/nginx-selfsigned.crt \
-            -subj "/C=$SSL_COUNTRY/ST=$SSL_STATE/L=$SSL_LOCALITY/O=$SSL_ORGANISATION/CN=$DOMAIN_NAME"
+            -subj "/C=$SSL_COUNTRY/ST=$SSL_STATE/L=$SSL_LOCALITY/O=$SSL_ORGANIZATION/CN=$DOMAIN_NAME"
 else
     echo "OPENSSL certificate already created"
 fi
