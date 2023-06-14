@@ -5,6 +5,8 @@ if [ ! -d "/var/lib/mysql/$MYSQL_DATABASE" ]; then
 
     mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
+    sed -i "s/bind-address.*/bind-address = $MYSQL_HOSTNAME/" /etc/mysql/mariadb.conf.d/50-server.cnf
+
     {
         echo "FLUSH PRIVILEGES;";
         echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;"

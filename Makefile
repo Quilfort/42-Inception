@@ -23,8 +23,11 @@ restart:
 		docker-compose -f ./srcs/docker-compose.yml down
 		docker rmi srcs_mariadb srcs_nginx srcs_wordpress
 		docker volume rm mariadb_volume wordpress_volume
+		rm -r /Users/qfrederi/Desktop/testmaria/*
+		rm /Users/qfrederi/Desktop/testmaria/*
+		rm -r /Users/qfrederi/Desktop/testwordpress/*
+		rm /Users/qfrederi/Desktop/testmaria/*
 		@osascript -e 'quit app "Docker"'
 		@echo "Close Docker"
 		@open -a Docker
 		@echo "Open Docker"
-		docker-compose -f ./srcs/docker-compose.yml up -d 

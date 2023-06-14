@@ -18,4 +18,4 @@ COPY tools/configure.sh /var/www/
 RUN chmod +x /var/www/configure.sh
 
 ENTRYPOINT ["/var/www/configure.sh"]
-CMD ["php7.3-fpm", "-F"]
+CMD ["php-fpm7.3", "-F"]
