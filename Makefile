@@ -25,3 +25,6 @@ close:
 		@echo "Close Docker" 		
 status:
 		@docker ps
+mariadb:
+		@docker exec -t -i mariadb /bin/bash
+
