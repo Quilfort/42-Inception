@@ -2,14 +2,14 @@ version: "3"
 
 volumes:
   mariadb_volume:
-    name: mariadb
+    name: mariadb_volume
     driver: local
     driver_opts:
       device: /Users/qfrederi/Desktop/testmaria
       o: bind
       type: none
   wordpress_volume:
-    name: wordpress
+    name: wordpress_volume
     driver: local
     driver_opts:
       device: /Users/qfrederi/Desktop/testwordpress
@@ -49,6 +49,7 @@ services:
       - WP_ADMIN_PASSWORD=${WP_ADMIN_PASSWORD}
       - WP_USER=${WP_USER}
       - WP_USER_PASSWORD=${WP_USER_PASSWORD}
+      - DOMAIN_NAME=${DOMAIN_NAME}
   nginx:
     container_name: nginx
     build: ./requirements/nginx/.

@@ -31,4 +31,4 @@ else
 
 fi
 
-exex "$@"
+exec "$@"
