@@ -5,19 +5,22 @@ volumes:
     name: mariadb_volume
     driver: local
     driver_opts:
-      device: /Users/qfrederi/Desktop/testmaria
+      device: /Users/qfrederi/Inception/data/mariadb
+      #device: /home/qfrederi/data/wordpress
       o: bind
       type: none
   wordpress_volume:
     name: wordpress_volume
     driver: local
     driver_opts:
-      device: /Users/qfrederi/Desktop/testwordpress
+      device: /Users/qfrederi/Inception/data/wordpress
+      #device: /home/qfrederi/data/mariadb
       type: none
       o: bind
 
 services:
   mariadb:
+    image: mariadb
     container_name: mariadb
     build: ./requirements/mariadb/.
     volumes:
@@ -31,6 +34,7 @@ services:
       - MYSQL_USERNAME=${MYSQL_USERNAME}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
   wordpress:
+    image: wordpress
     container_name: wordpress
     build: ./requirements/wordpress/.
     depends_on:
@@ -51,6 +55,7 @@ services:
       - WP_USER_PASSWORD=${WP_USER_PASSWORD}
       - DOMAIN_NAME=${DOMAIN_NAME}
   nginx:
+    image: nginx
     container_name: nginx
     build: ./requirements/nginx/.
     depends_on:

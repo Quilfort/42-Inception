@@ -9,8 +9,14 @@ stop:
 start:
 		docker-compose -f ./srcs/docker-compose.yml start
 clean: down
-		docker rmi srcs_mariadb srcs_nginx srcs_wordpress
-		docker volume rm srcs_mariadb srcs_wordpress
+		docker rmi wordpress nginx mariadb
+		docker volume rm mariadb_volume wordpress_volume
+		@rm -r /Users/qfrederi/Inception/data/mariadb/*
+		@echo "Data mariadb cleaned"
+		@rm -r /Users/qfrederi/Inception/data/wordpress/*
+		@echo "Data wordpress cleaned"
+		@osascript -e 'quit app "Docker"'
+		@echo "Close Docker"
 open:
 		@open -a Docker
 		@echo "Open Docker"
@@ -19,15 +25,3 @@ close:
 		@echo "Close Docker" 		
 status:
 		@docker ps
-restart:
-		docker-compose -f ./srcs/docker-compose.yml down
-		docker rmi srcs_mariadb srcs_nginx srcs_wordpress
-		docker volume rm mariadb_volume wordpress_volume
-		rm -r /Users/qfrederi/Desktop/testmaria/*
-		rm /Users/qfrederi/Desktop/testmaria/*
-		rm -r /Users/qfrederi/Desktop/testwordpress/*
-		rm /Users/qfrederi/Desktop/testmaria/*
-		@osascript -e 'quit app "Docker"'
-		@echo "Close Docker"
-		@open -a Docker
-		@echo "Open Docker"
